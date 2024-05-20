@@ -22,6 +22,7 @@ def index_range(page: int, page_size: int) -> Tuple[int, int]:
     end_index = start_index + page_size
     return (start_index, end_index)
 
+
 class Server:
     """Server class to paginate a database of popular baby names.
     """
@@ -44,11 +45,11 @@ class Server:
     def get_page(self, page: int = 1, page_size: int = 10) -> List[List]:
         """
         Get a page from the dataset.
-        
+
         Arguments:
         page -- the current page number (1-indexed)
         page_size -- the number of items per page
-        
+
         Returns:
         A list of lists representing the data on the specified page.
         """
@@ -59,7 +60,7 @@ class Server:
 
         start_index, end_index = index_range(page, page_size)
         data = self.dataset()
-        
+
         if start_index >= len(data):
             return []
 
@@ -68,18 +69,18 @@ class Server:
     def get_hyper(self, page: int = 1, page_size: int = 10) -> Dict[str, Any]:
         """
         Get a page from the dataset and additional pagination info.
-        
+
         Arguments:
         page -- the current page number (1-indexed)
         page_size -- the number of items per page
-        
+
         Returns:
         A dictionary containing pagination details.
         """
         data = self.get_page(page, page_size)
         total_items = len(self.dataset())
         total_pages = math.ceil(total_items / page_size)
-        
+
         next_page = page + 1 if (page + 1) <= total_pages else None
         prev_page = page - 1 if (page - 1) > 0 else None
 
@@ -91,6 +92,7 @@ class Server:
             "prev_page": prev_page,
             "total_pages": total_pages,
         }
+
 
 # Test cases
 if __name__ == "__main__":
