@@ -11,6 +11,14 @@ app = Flask(__name__)
 
 
 class Config:
+    """
+    Configuration class for the Flask app.
+
+    Attributes:
+        LANGUAGES (list): List of supported languages.
+        BABEL_DEFAULT_LOCALE (str): Default locale.
+        BABEL_DEFAULT_TIMEZONE (str): Default timezone.
+    """
     LANGUAGES = ["en", "fr"]
     BABEL_DEFAULT_LOCALE = 'en'
     BABEL_DEFAULT_TIMEZONE = 'UTC'
@@ -46,6 +54,12 @@ def get_locale():
 
 @babel.timezoneselector
 def get_timezone():
+    """
+    Get the best matching timezone for the user's locale.
+
+    Returns:
+        str: Best matching timezone.
+    """
     timezone = request.args.get('timezone')
     if timezone:
         try:
@@ -63,6 +77,12 @@ def get_timezone():
 
 
 def get_user():
+    """
+    Get the user information based on the login_as URL parameter.
+
+    Returns:
+        dict: User dictionary or None if user ID cannot be found or login_as.
+    """
     login_as = request.args.get('login_as')
     if login_as:
         try:
@@ -75,11 +95,20 @@ def get_user():
 
 @app.before_request
 def before_request():
+    """
+    Set the global user based on the login_as URL parameter.
+    """
     g.user = get_user()
 
 
 @app.route('/')
 def index():
+    """
+    Render the index.html template.
+
+    Returns:
+        str: Rendered HTML content.
+    """
     return render_template('6-index.html')
 
 
